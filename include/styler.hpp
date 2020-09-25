@@ -1,6 +1,9 @@
 #ifndef STYLER_HPP
 #define STYLER_HPP
 
+#include <iostream>
+#include <type_traits>
+
 namespace styler
 {
 enum class style
@@ -45,6 +48,12 @@ enum class background
 
 namespace internal
 {
+template <typename T>
+using IsValid =
+    typename std::enable_if<std::is_same<T, style>::value ||
+                                std::is_same<T, foreground>::value ||
+                                std::is_same<T, background>::value,
+                            std::ostream&>::type;
 }
 }  // namespace styler
 
