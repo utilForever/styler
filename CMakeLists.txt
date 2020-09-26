@@ -20,7 +20,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 include_directories(include)
 
 # Compile options
-include(CMake/CompileOptions.cmake)
+include(cmake/CompileOptions.cmake)
 
 # Build type - Release by default
 if(NOT CMAKE_BUILD_TYPE)
