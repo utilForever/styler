@@ -88,6 +88,29 @@ inline std::atomic<WinTerm>& GetWinTermMode() noexcept
     return termMode;
 }
 
+inline bool IsSupportColor() noexcept
+{
+#if defined(STYLER_LINUX) || defined(STYLER_MACOSX)
+    const char* terms[] = { "ansi",    "color",  "console", "cygwin", "gnome",
+                            "konsole", "kterm",  "linux",   "msys",   "putty",
+                            "rxvt",    "screen", "vt100",   "xterm" };
+
+    const char* envParam = std::getenv("TERM");
+    if (!envParam)
+    {
+        return false;
+    }
+
+    return std::any_of(std::begin(terms), std::end(terms),
+                       [&](const char* term) {
+                           return std::strstr(envParam, term) != nullptr;
+                       });
+#elif defined(STYLER_WINDOWS)
+    // All windows versions support colors through native console methods
+    return true;
+#endif
+}
+
 template <typename T>
 using IsValid =
     typename std::enable_if<std::is_same<T, Style>::value ||
