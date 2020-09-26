@@ -84,6 +84,24 @@ using IsValid =
                             std::ostream&>::type;
 }  // namespace internal
 
+template <typename T>
+internal::IsValid<T> operator<<(std::ostream& os, const T value)
+{
+    (void)value;
+
+    const Control controlMode = internal::GetControlMode();
+
+    if (controlMode == Control::Auto)
+    {
+    }
+
+    if (controlMode == Control::Force)
+    {
+    }
+
+    return os;
+}
+
 inline void SetControlMode(Control value) noexcept
 {
     internal::GetControlMode() = value;
