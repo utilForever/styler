@@ -46,6 +46,22 @@ enum class Background
     Reset
 };
 
+//! Behavior of styler function calls.
+enum class Control
+{
+    Off,   //! Toggle off rang style/color calls
+    Auto,  //! (Default) auto-detect terminal and colorize if needed
+    Force  //! Force ansi color output to non terminal streams
+};
+
+//! Terminal mode of Windows.
+enum class WinTerm
+{
+    Auto,   // (Default) Automatically detects whether ANSI or Native API
+    Ansi,   // Force use ANSI API
+    Native  // Force use Native API
+};
+
 namespace internal
 {
 template <typename T>
