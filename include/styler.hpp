@@ -64,6 +64,18 @@ enum class WinTerm
 
 namespace internal
 {
+inline std::atomic<Control>& GetControlMode() noexcept
+{
+    static std::atomic<Control> controlMode{ Control::Auto };
+    return controlMode;
+}
+
+inline std::atomic<WinTerm>& GetWinTermMode() noexcept
+{
+    static std::atomic<WinTerm> termMode{ WinTerm::Auto };
+    return termMode;
+}
+
 template <typename T>
 using IsValid =
     typename std::enable_if<std::is_same<T, Style>::value ||
@@ -71,6 +83,17 @@ using IsValid =
                                 std::is_same<T, Background>::value,
                             std::ostream&>::type;
 }  // namespace internal
+
+inline void SetControlMode(Control value) noexcept
+{
+    internal::GetControlMode() = value;
+}
+
+inline void SetWinTermMode(WinTerm value) noexcept
+{
+    internal::GetWinTermMode() = value;
+}
+
 }  // namespace styler
 
 #endif
