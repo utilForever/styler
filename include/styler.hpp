@@ -1,6 +1,18 @@
 #ifndef STYLER_HPP
 #define STYLER_HPP
 
+#if defined(__unix__) || defined(__unix) || defined(__linux__)
+#define STYLER_LINUX
+#elif defined(WIN32) || defined(_WIN32) || defined(_WIN64)
+#define STYLER_WINDOWS
+#elif defined(__APPLE__) || defined(__MACH__)
+#define STYLER_MACOSX
+#else
+#error Unknown Platform
+#endif
+
+#include <algorithm>
+#include <atomic>
 #include <iostream>
 #include <type_traits>
 
