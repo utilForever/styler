@@ -6,55 +6,55 @@
 
 namespace styler
 {
-enum class style
+enum class Style
 {
-    reset,
-    bold,
-    dim,
-    italic,
-    underline,
-    blink,
-    rblink,
-    reversed,
-    conceal,
-    crossed
+    Reset,
+    Bold,
+    Dim,
+    Italic,
+    Underline,
+    Blink,
+    RBlink,
+    Reversed,
+    Conceal,
+    Crossed
 };
 
-enum class foreground
+enum class Foreground
 {
-    black,
-    red,
-    green,
-    yellow,
-    blue,
-    magenta,
-    cyan,
-    gray,
-    reset
+    Black,
+    Red,
+    Green,
+    Yellow,
+    Blue,
+    Magenta,
+    Cyan,
+    Gray,
+    Reset
 };
 
-enum class background
+enum class Background
 {
-    black,
-    red,
-    green,
-    yellow,
-    blue,
-    magenta,
-    cyan,
-    gray,
-    reset
+    Black,
+    Red,
+    Green,
+    Yellow,
+    Blue,
+    Magenta,
+    Cyan,
+    Gray,
+    Reset
 };
 
 namespace internal
 {
 template <typename T>
 using IsValid =
-    typename std::enable_if<std::is_same<T, style>::value ||
-                                std::is_same<T, foreground>::value ||
-                                std::is_same<T, background>::value,
+    typename std::enable_if<std::is_same<T, Style>::value ||
+                                std::is_same<T, Foreground>::value ||
+                                std::is_same<T, Background>::value,
                             std::ostream&>::type;
-}
+}  // namespace internal
 }  // namespace styler
 
 #endif
