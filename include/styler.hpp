@@ -12,12 +12,15 @@
 #endif
 
 #if defined(STYLER_LINUX) || defined(STYLER_MACOSX)
+#include <unistd.h>
 #elif defined(STYLER_WINDOWS)
 #include <Windows.h>
 #include <io.h>
 #endif
 
+#include <algorithm>
 #include <atomic>
+#include <cstring>
 #include <iostream>
 #include <type_traits>
 
