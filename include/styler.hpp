@@ -49,8 +49,7 @@ enum class Foreground
     Blue = 34,
     Magenta = 35,
     Cyan = 36,
-    Gray = 37,
-    White = 38,
+    White = 37,
     Reset = 39
 };
 
@@ -63,8 +62,7 @@ enum class Background
     Blue = 44,
     Magenta = 45,
     Cyan = 46,
-    Gray = 47,
-    White = 48,
+    White = 47,
     Reset = 49
 };
 
