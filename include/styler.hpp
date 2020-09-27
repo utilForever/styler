@@ -17,7 +17,6 @@
 #include <io.h>
 #endif
 
-#include <algorithm>
 #include <atomic>
 #include <iostream>
 #include <type_traits>
@@ -26,42 +25,44 @@ namespace styler
 {
 enum class Style
 {
-    Reset,
-    Bold,
-    Dim,
-    Italic,
-    Underline,
-    Blink,
-    RBlink,
-    Reversed,
-    Conceal,
-    Crossed
+    Reset = 0,
+    Bold = 1,
+    Faint = 2,
+    Italic = 3,
+    Underline = 4,
+    SlowBlink = 5,
+    RapidBlink = 6,
+    Reverse = 7,
+    Conceal = 8,
+    Crossed = 9
 };
 
 enum class Foreground
 {
-    Black,
-    Red,
-    Green,
-    Yellow,
-    Blue,
-    Magenta,
-    Cyan,
-    Gray,
-    Reset
+    Black = 30,
+    Red = 31,
+    Green = 32,
+    Yellow = 33,
+    Blue = 34,
+    Magenta = 35,
+    Cyan = 36,
+    Gray = 37,
+    White = 38,
+    Reset = 39
 };
 
 enum class Background
 {
-    Black,
-    Red,
-    Green,
-    Yellow,
-    Blue,
-    Magenta,
-    Cyan,
-    Gray,
-    Reset
+    Black = 40,
+    Red = 41,
+    Green = 42,
+    Yellow = 43,
+    Blue = 44,
+    Magenta = 45,
+    Cyan = 46,
+    Gray = 47,
+    White = 48,
+    Reset = 49
 };
 
 //! Behavior of styler function calls.
