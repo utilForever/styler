@@ -1,4 +1,4 @@
-#include "Styler.hpp"
+#include "styler.hpp"
 
 #include <string>
 
@@ -34,7 +34,6 @@ void TestFeatures(std::ostream& os, const WinTerm opt)
     os << Background::Blue << " Blue " << Background::Reset;
     os << Background::Magenta << " Magenta " << Background::Reset;
     os << Background::Cyan << " Cyan " << Background::Reset;
-    os << Background::Gray << " Grey " << Background::Reset;
     os << Background::White << " White " << Background::Reset << std::endl;
 
     PrintHeading("Foreground Test:");
@@ -45,7 +44,6 @@ void TestFeatures(std::ostream& os, const WinTerm opt)
     os << Foreground::Blue << " Blue " << Foreground::Reset;
     os << Foreground::Magenta << " Magenta " << Foreground::Reset;
     os << Foreground::Cyan << " Cyan " << Foreground::Reset;
-    os << Foreground::Gray << " Grey " << Foreground::Reset;
     os << Foreground::White << " White " << Foreground::Reset << std::endl;
 }
 
