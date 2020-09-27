@@ -236,16 +236,18 @@ IsValid<T> SetColor(std::ostream& os, const T value)
 template <typename T>
 internal::IsValid<T> operator<<(std::ostream& os, const T value)
 {
-    (void)value;
-
     const Control controlMode = internal::GetControlMode();
 
     if (controlMode == Control::Auto)
     {
+        return internal::IsSupportColor() && internal::IsTerminal(os.rdbuf())
+                   ? internal::SetColor(os, value)
+                   : os;
     }
 
     if (controlMode == Control::Force)
     {
+        return internal::SetColor(os, value);
     }
 
     return os;
