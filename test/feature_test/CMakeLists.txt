@@ -1,5 +1,5 @@
 # Target name
-set(target test)
+set(target feature_test)
 
 # Includes
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})

@@ -29,4 +29,4 @@ endif()
 
 # Project modules
 add_subdirectory(external/doctest)
-add_subdirectory(test)
+add_subdirectory(test/feature_test)
