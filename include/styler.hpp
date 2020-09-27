@@ -214,6 +214,22 @@ using IsValid =
                                 std::is_same<T, Foreground>::value ||
                                 std::is_same<T, Background>::value,
                             std::ostream&>::type;
+
+#if defined(STYLER_WINDOWS)
+template <typename T>
+IsValid<T> SetColor(std::ostream& os, const T value)
+{
+    (void)value;
+
+    return os;
+}
+#else
+template <typename T>
+IsValid<T> SetColor(std::ostream& os, const T value)
+{
+    return os << "\033[" << static_cast<int>(value) << "m";
+}
+#endif
 }  // namespace internal
 
 template <typename T>
