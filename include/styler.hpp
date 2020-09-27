@@ -11,6 +11,12 @@
 #error Unknown Platform
 #endif
 
+#if defined(STYLER_LINUX) || defined(STYLER_MACOSX)
+#elif defined(STYLER_WINDOWS)
+#include <Windows.h>
+#include <io.h>
+#endif
+
 #include <algorithm>
 #include <atomic>
 #include <iostream>
@@ -110,6 +116,66 @@ inline bool IsSupportColor() noexcept
     return true;
 #endif
 }
+
+#if defined(STYLER_WINDOWS)
+inline bool IsMSYSPty(int fd) noexcept
+{
+    // Dynamic load for binary compatibility with old Windows
+    const auto ptrFileInfo =
+        reinterpret_cast<decltype(&GetFileInformationByHandleEx)>(
+            GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")),
+                           "GetFileInformationByHandleEx"));
+    if (!ptrFileInfo)
+    {
+        return false;
+    }
+
+    const auto handle = reinterpret_cast<HANDLE>(_get_osfhandle(fd));
+    if (handle == INVALID_HANDLE_VALUE)
+    {
+        return false;
+    }
+
+    // Check that it's a pipe:
+    if (GetFileType(handle) != FILE_TYPE_PIPE)
+    {
+        return false;
+    }
+
+    // POD type is binary compatible with FILE_NAME_INFO from WinBase.h
+    // It have the same alignment and used to avoid UB in caller code
+    struct MY_FILE_NAME_INFO
+    {
+        DWORD FileNameLength;
+        WCHAR FileName[MAX_PATH];
+    };
+
+    auto pNameInfo = std::make_unique<MY_FILE_NAME_INFO>();
+    if (!pNameInfo)
+    {
+        return false;
+    }
+
+    // Check pipe name is template of
+    // {"cygwin-","msys-"}XXXXXXXXXXXXXXX-ptyX-XX
+    if (!ptrFileInfo(handle, FileNameInfo, pNameInfo.get(),
+                     sizeof(MY_FILE_NAME_INFO)))
+    {
+        return false;
+    }
+
+    const std::wstring name(pNameInfo->FileName,
+                            pNameInfo->FileNameLength / sizeof(WCHAR));
+    if ((name.find(L"msys-") == std::wstring::npos &&
+         name.find(L"cygwin-") == std::wstring::npos) ||
+        name.find(L"-pty") == std::wstring::npos)
+    {
+        return false;
+    }
+
+    return true;
+}
+#endif
 
 template <typename T>
 using IsValid =
