@@ -177,6 +177,37 @@ inline bool IsMSYSPty(int fd) noexcept
 }
 #endif
 
+inline bool IsTerminal(const std::streambuf* osbuf) noexcept
+{
+#if defined(STYLER_LINUX) || defined(STYLER_MACOSX)
+    if (osbuf == std::cout.rdbuf())
+    {
+        const static bool coutTerm = isatty(fileno(stdout)) != 0;
+        return coutTerm;
+    }
+    else if (osbuf == std::cerr.rdbuf() || osbuf == std::clog.rdbuf())
+    {
+        const static bool cerrTerm = isatty(fileno(stderr)) != 0;
+        return cerrTerm;
+    }
+#elif defined(STYLER_WINDOWS)
+    if (osbuf == std::cout.rdbuf())
+    {
+        const static bool coutTerm =
+            _isatty(_fileno(stdout)) || IsMSYSPty(_fileno(stdout));
+        return coutTerm;
+    }
+    else if (osbuf == std::cerr.rdbuf() || osbuf == std::clog.rdbuf())
+    {
+        const static bool cerrTerm =
+            _isatty(_fileno(stderr)) || IsMSYSPty(_fileno(stderr));
+        return cerrTerm;
+    }
+#endif
+
+    return false;
+}
+
 template <typename T>
 using IsValid =
     typename std::enable_if<std::is_same<T, Style>::value ||
