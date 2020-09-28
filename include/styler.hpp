@@ -228,8 +228,7 @@ inline bool IsSupportANSI(const std::streambuf* osbuf) noexcept
 template <typename T>
 void SetWinColorANSI(std::ostream& os, const T value)
 {
-    (void)os;
-    (void)value;
+    os << "\033[" << static_cast<int>(value) << "m";
 }
 
 template <typename T>
