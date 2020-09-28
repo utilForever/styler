@@ -218,6 +218,23 @@ using IsValid =
                             std::ostream&>::type;
 
 #if defined(STYLER_WINDOWS)
+inline HANDLE GetConsoleHandle(const std::streambuf* osbuf) noexcept
+{
+    if (osbuf == std::cout.rdbuf())
+    {
+        static HANDLE handleStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+        return handleStdOut;
+    }
+
+    if (osbuf == std::cerr.rdbuf() || osbuf == std::clog.rdbuf())
+    {
+        static HANDLE handleStdErr = GetStdHandle(STD_ERROR_HANDLE);
+        return handleStdErr;
+    }
+
+    return INVALID_HANDLE_VALUE;
+}
+
 inline bool IsSupportANSI(const std::streambuf* osbuf) noexcept
 {
     (void)osbuf;
