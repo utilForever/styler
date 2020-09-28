@@ -187,7 +187,8 @@ inline bool IsTerminal(const std::streambuf* osbuf) noexcept
         const static bool coutTerm = isatty(fileno(stdout)) != 0;
         return coutTerm;
     }
-    else if (osbuf == std::cerr.rdbuf() || osbuf == std::clog.rdbuf())
+
+    if (osbuf == std::cerr.rdbuf() || osbuf == std::clog.rdbuf())
     {
         const static bool cerrTerm = isatty(fileno(stderr)) != 0;
         return cerrTerm;
@@ -199,7 +200,8 @@ inline bool IsTerminal(const std::streambuf* osbuf) noexcept
             _isatty(_fileno(stdout)) || IsMSYSPty(_fileno(stdout));
         return coutTerm;
     }
-    else if (osbuf == std::cerr.rdbuf() || osbuf == std::clog.rdbuf())
+
+    if (osbuf == std::cerr.rdbuf() || osbuf == std::clog.rdbuf())
     {
         const static bool cerrTerm =
             _isatty(_fileno(stderr)) || IsMSYSPty(_fileno(stderr));
@@ -235,9 +237,28 @@ inline HANDLE GetConsoleHandle(const std::streambuf* osbuf) noexcept
     return INVALID_HANDLE_VALUE;
 }
 
-inline bool IsSupportANSI(const std::streambuf* osbuf) noexcept
+inline bool SetWinTermANSIColors(const std::streambuf* osbuf) noexcept
 {
     (void)osbuf;
+
+    return INVALID_HANDLE_VALUE;
+}
+
+inline bool IsSupportANSI(const std::streambuf* osbuf) noexcept
+{
+    if (osbuf == std::cout.rdbuf())
+    {
+        const static bool coutANSI =
+            IsMSYSPty(_fileno(stdout)) || SetWinTermANSIColors(osbuf);
+        return coutANSI;
+    }
+
+    if (osbuf == std::cerr.rdbuf() || osbuf == std::clog.rdbuf())
+    {
+        const static bool cerrANSI =
+            IsMSYSPty(_fileno(stderr)) || SetWinTermANSIColors(osbuf);
+        return cerrANSI;
+    }
 
     return false;
 }
