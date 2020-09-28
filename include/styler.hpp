@@ -239,9 +239,25 @@ inline HANDLE GetConsoleHandle(const std::streambuf* osbuf) noexcept
 
 inline bool SetWinTermANSIColors(const std::streambuf* osbuf) noexcept
 {
-    (void)osbuf;
+    HANDLE handle = GetConsoleHandle(osbuf);
+    if (handle == INVALID_HANDLE_VALUE)
+    {
+        return false;
+    }
 
-    return INVALID_HANDLE_VALUE;
+    DWORD dwMode = 0;
+    if (!GetConsoleMode(handle, &dwMode))
+    {
+        return false;
+    }
+
+    dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+    if (!SetConsoleMode(handle, dwMode))
+    {
+        return false;
+    }
+
+    return true;
 }
 
 inline bool IsSupportANSI(const std::streambuf* osbuf) noexcept
