@@ -218,10 +218,49 @@ using IsValid =
                             std::ostream&>::type;
 
 #if defined(STYLER_WINDOWS)
+inline bool IsSupportANSI(const std::streambuf* osbuf) noexcept
+{
+    (void)osbuf;
+
+    return false;
+}
+
+template <typename T>
+void SetWinColorANSI(std::ostream& os, const T value)
+{
+    (void)os;
+    (void)value;
+}
+
+template <typename T>
+void SetWinColorNative(std::ostream& os, const T value)
+{
+    (void)os;
+    (void)value;
+}
+
 template <typename T>
 IsValid<T> SetColor(std::ostream& os, const T value)
 {
-    (void)value;
+    if (GetWinTermMode() == WinTerm::Auto)
+    {
+        if (IsSupportANSI(os.rdbuf()))
+        {
+            SetWinColorANSI(os, value);
+        }
+        else
+        {
+            SetWinColorNative(os, value);
+        }
+    }
+    else if (GetWinTermMode() == WinTerm::Ansi)
+    {
+        SetWinColorANSI(os, value);
+    }
+    else
+    {
+        SetWinColorNative(os, value);
+    }
 
     return os;
 }
