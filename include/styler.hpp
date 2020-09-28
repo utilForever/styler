@@ -220,6 +220,19 @@ using IsValid =
                             std::ostream&>::type;
 
 #if defined(STYLER_WINDOWS)
+// Select Graphic Rendition parameters for Windows console
+struct SGR
+{
+    BYTE foregroundColor;  // Foreground color (0-15) lower 3 rgb bits
+                           // + intense bit
+    BYTE backgroundColor;  // Background color (0-15) lower 3 rgb bits
+                           // + intense bit
+    BYTE bold;             // Emulated as FOREGROUND_INTENSITY bit
+    BYTE underline;        // Emulated as BACKGROUND_INTENSITY bit
+    BOOLEAN reverse;       // Swap foreground/bold & background/underline
+    BOOLEAN conceal;       // Set foreground/bold to background/underline
+};
+
 inline HANDLE GetConsoleHandle(const std::streambuf* osbuf) noexcept
 {
     if (osbuf == std::cout.rdbuf())
