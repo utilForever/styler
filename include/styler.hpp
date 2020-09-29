@@ -242,7 +242,9 @@ template <typename T>
 using IsValid =
     typename std::enable_if<std::is_same<T, Style>::value ||
                                 std::is_same<T, Foreground>::value ||
-                                std::is_same<T, Background>::value,
+                                std::is_same<T, Background>::value ||
+                                std::is_same<T, ForegroundHI>::value ||
+                                std::is_same<T, BackgroundHI>::value,
                             std::ostream&>::type;
 
 #if defined(STYLER_WINDOWS)
