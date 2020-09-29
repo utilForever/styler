@@ -66,6 +66,19 @@ enum class Background
     Reset = 49
 };
 
+enum class ForegroundHI
+{
+    Black = 90,
+    Red = 91,
+    Green = 92,
+    Yellow = 93,
+    Blue = 94,
+    Magenta = 95,
+    Cyan = 96,
+    White = 97,
+    Reset = 99
+};
+
 //! Behavior of styler function calls.
 enum class Control
 {
