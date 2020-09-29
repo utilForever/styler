@@ -294,7 +294,22 @@ inline bool IsSupportANSI(const std::streambuf* osbuf) noexcept
 
 inline const SGR& GetDefaultState() noexcept
 {
-    static SGR defaultSGR;
+    const static SGR defaultSGR = []() -> SGR {
+        CONSOLE_SCREEN_BUFFER_INFO info;
+        WORD attrib = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
+
+        if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE),
+                                       &info) ||
+            GetConsoleScreenBufferInfo(GetStdHandle(STD_ERROR_HANDLE), &info))
+        {
+            attrib = info.wAttributes;
+        }
+
+        SGR sgr = { 0, 0, 0, 0, FALSE, FALSE };
+        sgr.foregroundColor = attrib & 0x0F;
+        sgr.backgroundColor = (attrib & 0xF0) >> 4;
+        return sgr;
+    }();
 
     return defaultSGR;
 }
