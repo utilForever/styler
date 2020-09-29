@@ -465,6 +465,18 @@ inline void SetWinSGR(Background bg, SGR& state) noexcept
     }
 }
 
+inline void SetWinSGR(ForegroundHI fgHI, SGR& state) noexcept
+{
+    state.foregroundColor =
+        (BACKGROUND_INTENSITY >> 4) | ANSI2Attr(static_cast<BYTE>(fgHI) - 90);
+}
+
+inline void SetWinSGR(BackgroundHI bgHI, SGR& state) noexcept
+{
+    state.backgroundColor =
+        FOREGROUND_INTENSITY | ANSI2Attr(static_cast<BYTE>(bgHI) - 100);
+}
+
 template <typename T>
 void SetWinColorANSI(std::ostream& os, const T value)
 {
