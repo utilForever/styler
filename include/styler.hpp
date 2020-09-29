@@ -75,8 +75,7 @@ enum class ForegroundHI
     Blue = 94,
     Magenta = 95,
     Cyan = 96,
-    White = 97,
-    Reset = 99
+    White = 97
 };
 
 enum class BackgroundHI
@@ -88,8 +87,7 @@ enum class BackgroundHI
     Blue = 104,
     Magenta = 105,
     Cyan = 106,
-    White = 107,
-    Reset = 109
+    White = 107
 };
 
 //! Behavior of styler function calls.
