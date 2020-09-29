@@ -322,8 +322,27 @@ inline SGR& GetCurrentState() noexcept
 
 inline void SetWinSGR(Style style, SGR& state) noexcept
 {
-    (void)style;
-    (void)state;
+    switch (style)
+    {
+        case Style::Reset:
+            state = GetDefaultState();
+            break;
+        case Style::Bold:
+            state.bold = FOREGROUND_INTENSITY;
+            break;
+        case Style::Underline:
+        case Style::SlowBlink:
+            state.underline = BACKGROUND_INTENSITY;
+            break;
+        case Style::Reverse:
+            state.reverse = TRUE;
+            break;
+        case Style::Conceal:
+            state.conceal = TRUE;
+            break;
+        default:
+            break;
+    }
 }
 
 inline void SetWinSGR(Foreground fg, SGR& state) noexcept
