@@ -292,10 +292,16 @@ inline bool IsSupportANSI(const std::streambuf* osbuf) noexcept
     return false;
 }
 
+inline const SGR& GetDefaultState() noexcept
+{
+    static SGR defaultSGR;
+
+    return defaultSGR;
+}
+
 inline SGR& GetCurrentState() noexcept
 {
-    static SGR state;
-
+    static SGR state = GetDefaultState();
     return state;
 }
 
