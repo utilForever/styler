@@ -233,6 +233,19 @@ struct SGR
     BOOLEAN conceal;       // Set foreground/bold to background/underline
 };
 
+// Color attributes for console screen buffer
+enum class AttrColor : BYTE
+{
+    Black = 0,
+    Red = 4,
+    Green = 2,
+    Yellow = 6,
+    Blue = 1,
+    Magenta = 5,
+    Cyan = 3,
+    White = 7
+};
+
 inline HANDLE GetConsoleHandle(const std::streambuf* osbuf) noexcept
 {
     if (osbuf == std::cout.rdbuf())
