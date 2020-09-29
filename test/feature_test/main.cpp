@@ -45,6 +45,26 @@ void TestFeatures(std::ostream& os, const WinTerm opt)
     os << Foreground::Magenta << " Magenta " << Foreground::Reset;
     os << Foreground::Cyan << " Cyan " << Foreground::Reset;
     os << Foreground::White << " White " << Foreground::Reset << std::endl;
+
+    PrintHeading("Background - High Intensity Test:");
+    os << BackgroundHI::Black << " Black " << Background::Reset;
+    os << BackgroundHI::Red << " Red " << Background::Reset;
+    os << BackgroundHI::Green << " Green " << Background::Reset;
+    os << BackgroundHI::Yellow << " Yellow " << Background::Reset;
+    os << BackgroundHI::Blue << " Blue " << Background::Reset;
+    os << BackgroundHI::Magenta << " Magenta " << Background::Reset;
+    os << BackgroundHI::Cyan << " Cyan " << Background::Reset;
+    os << BackgroundHI::White << " White " << Background::Reset << std::endl;
+
+    PrintHeading("Foreground - High Intensity Test:");
+    os << ForegroundHI::Black << " Black " << Foreground::Reset;
+    os << ForegroundHI::Red << " Red " << Foreground::Reset;
+    os << ForegroundHI::Green << " Green " << Foreground::Reset;
+    os << ForegroundHI::Yellow << " Yellow " << Foreground::Reset;
+    os << ForegroundHI::Blue << " Blue " << Foreground::Reset;
+    os << ForegroundHI::Magenta << " Magenta " << Foreground::Reset;
+    os << ForegroundHI::Cyan << " Cyan " << Foreground::Reset;
+    os << ForegroundHI::White << " White " << Foreground::Reset << std::endl;
 }
 
 void EnumerateWinTerms()
