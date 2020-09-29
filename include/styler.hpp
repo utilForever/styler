@@ -320,6 +320,20 @@ inline SGR& GetCurrentState() noexcept
     return state;
 }
 
+inline BYTE ANSI2Attr(BYTE rgb) noexcept
+{
+    (void)rgb;
+
+    return BYTE{};
+}
+
+inline WORD SGR2Attr(const SGR& state) noexcept
+{
+    (void)state;
+
+    return WORD{};
+}
+
 inline void SetWinSGR(Style style, SGR& state) noexcept
 {
     switch (style)
@@ -347,21 +361,26 @@ inline void SetWinSGR(Style style, SGR& state) noexcept
 
 inline void SetWinSGR(Foreground fg, SGR& state) noexcept
 {
-    (void)fg;
-    (void)state;
+    if (fg != Foreground::Reset)
+    {
+        state.foregroundColor = ANSI2Attr(static_cast<BYTE>(fg) - 30);
+    }
+    else
+    {
+        state.foregroundColor = GetDefaultState().foregroundColor;
+    }
 }
 
 inline void SetWinSGR(Background bg, SGR& state) noexcept
 {
-    (void)bg;
-    (void)state;
-}
-
-inline WORD SGR2Attr(const SGR& state) noexcept
-{
-    (void)state;
-
-    return WORD{};
+    if (bg != Background::Reset)
+    {
+        state.backgroundColor = ANSI2Attr(static_cast<BYTE>(bg) - 340);
+    }
+    else
+    {
+        state.backgroundColor = GetDefaultState().backgroundColor;
+    }
 }
 
 template <typename T>
