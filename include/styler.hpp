@@ -344,9 +344,50 @@ inline BYTE ANSI2Attr(BYTE rgb) noexcept
 
 inline WORD SGR2Attr(const SGR& state) noexcept
 {
-    (void)state;
+    WORD attr;
 
-    return WORD{};
+    if (state.conceal)
+    {
+        if (state.reverse)
+        {
+            attr = static_cast<BYTE>(state.foregroundColor << 4) |
+                   state.foregroundColor;
+            if (state.bold)
+            {
+                attr |= FOREGROUND_INTENSITY | BACKGROUND_INTENSITY;
+            }
+        }
+        else
+        {
+            attr = static_cast<BYTE>(state.backgroundColor << 4) |
+                   state.backgroundColor;
+            if (state.underline)
+            {
+                attr |= FOREGROUND_INTENSITY | BACKGROUND_INTENSITY;
+            }
+        }
+    }
+    else if (state.reverse)
+    {
+        attr = static_cast<BYTE>(state.foregroundColor << 4) |
+               state.backgroundColor;
+        if (state.bold)
+        {
+            attr |= BACKGROUND_INTENSITY;
+        }
+        if (state.underline)
+        {
+            attr |= FOREGROUND_INTENSITY;
+        }
+    }
+    else
+    {
+        attr = state.foregroundColor |
+               static_cast<BYTE>(state.backgroundColor << 4) | state.bold |
+               state.underline;
+    }
+
+    return attr;
 }
 
 inline void SetWinSGR(Style style, SGR& state) noexcept
