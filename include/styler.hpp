@@ -292,6 +292,38 @@ inline bool IsSupportANSI(const std::streambuf* osbuf) noexcept
     return false;
 }
 
+inline SGR& GetCurrentState() noexcept
+{
+    static SGR state;
+
+    return state;
+}
+
+inline void SetWinSGR(Style style, SGR& state) noexcept
+{
+    (void)style;
+    (void)state;
+}
+
+inline void SetWinSGR(Foreground fg, SGR& state) noexcept
+{
+    (void)fg;
+    (void)state;
+}
+
+inline void SetWinSGR(Background bg, SGR& state) noexcept
+{
+    (void)bg;
+    (void)state;
+}
+
+inline WORD SGR2Attr(const SGR& state) noexcept
+{
+    (void)state;
+
+    return WORD{};
+}
+
 template <typename T>
 void SetWinColorANSI(std::ostream& os, const T value)
 {
@@ -301,8 +333,15 @@ void SetWinColorANSI(std::ostream& os, const T value)
 template <typename T>
 void SetWinColorNative(std::ostream& os, const T value)
 {
-    (void)os;
-    (void)value;
+    HANDLE handle = GetConsoleHandle(os.rdbuf());
+    if (handle != INVALID_HANDLE_VALUE)
+    {
+        SetWinSGR(value, GetCurrentState());
+
+        // Out all buffered text to console with previous settings:
+        os.flush();
+        SetConsoleTextAttribute(handle, SGR2Attr(GetCurrentState()));
+    }
 }
 
 template <typename T>
