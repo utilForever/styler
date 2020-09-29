@@ -18,6 +18,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Includes
 include_directories(include)
+include_directories(external/doctest/doctest)
 
 # Compile options
 include(cmake/CompileOptions.cmake)
@@ -30,3 +31,4 @@ endif()
 # Project modules
 add_subdirectory(external/doctest)
 add_subdirectory(test/feature_test)
+add_subdirectory(test/unit_test)
