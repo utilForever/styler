@@ -335,9 +335,11 @@ inline SGR& GetCurrentState() noexcept
 
 inline BYTE ANSI2Attr(BYTE rgb) noexcept
 {
-    (void)rgb;
-
-    return BYTE{};
+    static const AttrColor rev[8] = { AttrColor::Black, AttrColor::Red,
+                                      AttrColor::Green, AttrColor::Yellow,
+                                      AttrColor::Blue,  AttrColor::Magenta,
+                                      AttrColor::Cyan,  AttrColor::White };
+    return static_cast<BYTE>(rev[rgb]);
 }
 
 inline WORD SGR2Attr(const SGR& state) noexcept
@@ -388,7 +390,7 @@ inline void SetWinSGR(Background bg, SGR& state) noexcept
 {
     if (bg != Background::Reset)
     {
-        state.backgroundColor = ANSI2Attr(static_cast<BYTE>(bg) - 340);
+        state.backgroundColor = ANSI2Attr(static_cast<BYTE>(bg) - 40);
     }
     else
     {
