@@ -4,7 +4,7 @@
 
 [![License](https://img.shields.io/badge/Licence-MIT-blue.svg)](./LICENSE)
 
-styler is a header only Modern C++ library for styling output text in Terminal based on [styler](https://github.com/agauniyal/styler) that was created by [Abhinav Gauniyal](https://github.com/agauniyal).
+styler is a header only Modern C++ library for styling output text in Terminal based on [rang](https://github.com/agauniyal/rang) that was created by [Abhinav Gauniyal](https://github.com/agauniyal).
 The code is built on C++17 and can be compiled with commonly available compilers such as g++, clang++, or Microsoft Visual Studio. styler currently supports macOS (10.12.6 or later), Ubuntu (17.04 or later), Windows (Visual Studio 2017 or later), and Windows Subsystem for Linux (WSL). Other untested platforms that support C++17 also should be able to build styler.
 
 ## Example usage
