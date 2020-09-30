@@ -27,7 +27,9 @@ jobs:
         submodules: true
     - name: Configure Build
       run: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release ..
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.1
     - name: Build
       run: cd build && MSBuild.exe styler.sln
     - name: Run Test
-      run: /Users/runner/work/styler/styler/build/bin/unit_test
+      run: /a/styler/styler/build/bin/unit_test
