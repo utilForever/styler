@@ -45,4 +45,4 @@ jobs:
     - name: Build
       run: cd build && make
     - name: Run Test
-      run: /home/runner/work/styler/styler/build/unit_test
+      run: /home/runner/work/styler/styler/build/bin/unit_test
