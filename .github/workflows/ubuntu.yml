@@ -1,0 +1,48 @@
+name: Ubuntu
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-ubuntu:
+    strategy:
+      matrix:
+        include:
+          # Ubuntu 16.04 + gcc-7
+          - name: "Ubuntu 16.04 + gcc-7"
+            os: ubuntu-16.04
+            cuda: ""
+            gcc: 7
+            cpu: true
+            gpu: false
+          # Ubuntu 18.04 + gcc-8
+          - name: "Ubuntu 18.04 + gcc-8"
+            os: ubuntu-18.04
+            cuda: ""
+            gcc: 8
+            cpu: true
+            gpu: false
+          # Ubuntu 20.04 + gcc-9
+          - name: "Ubuntu 20.04 + gcc-9"
+            os: ubuntu-20.04
+            cuda: ""
+            gcc: 9
+            cpu: true
+            gpu: false
+
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.name }}
+
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        submodules: true
+    - name: Configure
+      run: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release ..
+    - name: Build
+      run: cd build && make
+    - name: Run Test
+      run: /home/runner/work/styler/styler/build/unit_test
