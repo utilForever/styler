@@ -25,7 +25,7 @@ jobs:
       with:
         submodules: true
     - name: Install packages
-      run: sudo apt-get install -yq gcovr ggcov lcov curl
+      run: sudo apt-get install -yq lcov
     - name: Configure Compiler
       run: |
         if [ "${{ matrix.compiler }}" = "gcc" ]; then
@@ -39,19 +39,7 @@ jobs:
       run: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_COVERAGE=ON ..
     - name: Build
       run: cd build && make
-    - name: Preprocess coverage report
-      run: |
-        lcov --gcov-tool /usr/bin/gcov-7 -c -i -d test/unit_test -o base.info
-    - name: Run Test and Generate coverage report
-      run: |
-        /home/runner/work/styler/styler/build/bin/unit_test
-        lcov --gcov-tool /usr/bin/gcov-7 -c -d /home/runner/work/styler/styler/test/unit_test -o test.info
-        lcov --gcov-tool /usr/bin/gcov-7 -a base.info -a test.info -o coverage.info
-        lcov --gcov-tool /usr/bin/gcov-7 -r coverage.info '/usr/*' -o coverage.info
-        lcov --gcov-tool /usr/bin/gcov-7 -r coverage.info '*/external/*' -o coverage.info
-        lcov --gcov-tool /usr/bin/gcov-7 -l coverage.info
+    - name: Run Test
+      run: /home/runner/work/styler/styler/build/bin/unit_test
     - name: Upload coverage to Codecov
-      run: |
-        curl -s https://codecov.io/bash > .codecov
-        chmod +x .codecov
-        ./.codecov
+      run: bash <(curl -s https://codecov.io/bash)
