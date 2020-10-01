@@ -30,6 +30,6 @@ jobs:
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.1
     - name: Build
-      run: cd build && MSBuild.exe styler.sln
+      run: cd build && MSBuild.exe styler.sln /p:Configuration=Release
     - name: Run Test
-      run: /a/styler/styler/build/bin/unit_test
+      run: /a/styler/styler/build/bin/Release/unit_test.exe
