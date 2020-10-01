@@ -41,24 +41,17 @@ jobs:
       run: cd build && make
     - name: Preprocess coverage report
       run: |
-        build-wrapper-linux-x86-64 --out-dir ../bw-output make UnitTests
-        lcov --gcov-tool /usr/bin/gcov-7 -c -i -d Tests/UnitTests -o base.info
+        lcov --gcov-tool /usr/bin/gcov-7 -c -i -d test/unit_test -o base.info
     - name: Run Test and Generate coverage report
-      run: /home/runner/work/styler/styler/build/bin/unit_test
+      run: |
+        /home/runner/work/styler/styler/build/bin/unit_test
         lcov --gcov-tool /usr/bin/gcov-7 -c -d /home/runner/work/styler/styler/test/unit_test -o test.info
         lcov --gcov-tool /usr/bin/gcov-7 -a base.info -a test.info -o coverage.info
         lcov --gcov-tool /usr/bin/gcov-7 -r coverage.info '/usr/*' -o coverage.info
         lcov --gcov-tool /usr/bin/gcov-7 -r coverage.info '*/external/*' -o coverage.info
         lcov --gcov-tool /usr/bin/gcov-7 -l coverage.info
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v1
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        file: ./coverage.xml
-        files: ./coverage1.xml,./coverage2.xml
-        directory: ./coverage/reports/
-        flags: unittests
-        env_vars: OS,PYTHON
-        name: codecov-umbrella
-        fail_ci_if_error: true
-        path_to_write_report: ./coverage/codecov_report.gz      
+      run: |
+        curl -s https://codecov.io/bash > .codecov
+        chmod +x .codecov
+        ./.codecov
