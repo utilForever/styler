@@ -40,6 +40,8 @@ jobs:
     - name: Build
       run: cd build && make
     - name: Run Test
-      run: /home/runner/work/styler/styler/build/bin/unit_test
+      run: |
+        /home/runner/work/styler/styler/build/bin/unit_test
+        /home/runner/work/styler/styler/build/bin/feature_test
     - name: Upload coverage to Codecov
       run: bash <(curl -s https://codecov.io/bash)
