@@ -1,0 +1,64 @@
+name: Ubuntu - Codecov
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-ubuntu:
+    strategy:
+      matrix:
+        include:
+          # Ubuntu 20.04 + gcc-9
+          - name: "Ubuntu 20.04 + gcc-9"
+            os: ubuntu-20.04
+            compiler: gcc
+            version: "9"
+
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.name }}
+
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        submodules: true
+    - name: Install packages
+      run: sudo apt-get install -yq gcovr ggcov lcov curl
+    - name: Configure Compiler
+      run: |
+        if [ "${{ matrix.compiler }}" = "gcc" ]; then
+          echo "::set-env name=CC::gcc-${{ matrix.version }}"
+          echo "::set-env name=CXX::g++-${{ matrix.version }}"
+        else
+          echo "::set-env name=CC::clang-${{ matrix.version }}"
+          echo "::set-env name=CXX::clang++-${{ matrix.version }}"
+        fi
+    - name: Configure Build
+      run: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_COVERAGE=ON ..
+    - name: Build
+      run: cd build && make
+    - name: Preprocess coverage report
+      run: |
+        build-wrapper-linux-x86-64 --out-dir ../bw-output make UnitTests
+        lcov --gcov-tool /usr/bin/gcov-7 -c -i -d Tests/UnitTests -o base.info
+    - name: Run Test and Generate coverage report
+      run: /home/runner/work/styler/styler/build/bin/unit_test
+        lcov --gcov-tool /usr/bin/gcov-7 -c -d /home/runner/work/styler/styler/test/unit_test -o test.info
+        lcov --gcov-tool /usr/bin/gcov-7 -a base.info -a test.info -o coverage.info
+        lcov --gcov-tool /usr/bin/gcov-7 -r coverage.info '/usr/*' -o coverage.info
+        lcov --gcov-tool /usr/bin/gcov-7 -r coverage.info '*/external/*' -o coverage.info
+        lcov --gcov-tool /usr/bin/gcov-7 -l coverage.info
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        file: ./coverage.xml
+        files: ./coverage1.xml,./coverage2.xml
+        directory: ./coverage/reports/
+        flags: unittests
+        env_vars: OS,PYTHON
+        name: codecov-umbrella
+        fail_ci_if_error: true
+        path_to_write_report: ./coverage/codecov_report.gz      
