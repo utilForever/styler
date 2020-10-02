@@ -134,10 +134,6 @@ Supported attributes with their compatiblity are listed below -
 | `styler::Foreground::Reset` | Yes | Yes |
 | `styler::Background::Reset` | Yes | Yes |
 
-## Documentation
-
-TBA
-
 ## How To Contribute
 
 Contributions are always welcome, either reporting issues/bugs or forking the repository and then issuing pull requests when you have completed some additional coding that you feel will be beneficial to the main project. If you are interested in contributing in a more dedicated capacity, then please contact me.
@@ -145,6 +141,10 @@ Contributions are always welcome, either reporting issues/bugs or forking the re
 ## Contact
 
 You can contact me via e-mail (utilForever at gmail.com). I am always happy to answer questions or help with any issues you might have, and please be sure to share any additional work or your creations with me, I love seeing what other people are making.
+
+## Acknowledgement
+
+I would like to thank [Abhinav Gauniyal](https://github.com/agauniyal) for making the library [rang](https://github.com/agauniyal/rang). Based on this library, I'll try to provide better features.
 
 ## License
 
