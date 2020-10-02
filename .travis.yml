@@ -6,7 +6,7 @@ addons:
   sonarcloud:
     organization: "utilforever-github"
     token:
-      secure: "mMi7Q7QqMFhm2nNoa6bHcHH5QRo23aQ5OG+AI9wydiUh86YB4BqRGViGupzft1HlW3VfM0bRh8AcNW/Yh6yyktXmFMnK0Ina7Xnh8DAraoHG0Nu1OGsLoG2qOpIdHQ6TaJJwNIzacmfoEZ5/iW56Ex8sEmNVlQxD8dvadBSBfFbGqIENu6mSLhNC6ulayFHoCwi7F84qj8i4I8JmDEnxeWwiZNwbU5TJwIr0ndbiw9qV3WYIuTHne9eyL4vLbSwWNvbJK6J+rOZmuVcq6bbuTy8SPC2HkZjNHS3g+p2xLecFrx3olXBOh6UaTU8vOIe535/t4aneMfspXIl/oqbd1hPRMHkgbGo67gac84ygIPRyUytvnUiEMEexqxQFRrwUAabCX4sxdMKT/tktYycMCMSxal6EsH79i7cl0TngddKFvhmgFXgk9Yh7J1DT4n8EWMPDS5pc5nmctwgnBqgQ9DyxqNrXAKQWz8lgeFkvJUsBEId+5e8kcezrj4NymjMw1DeZddC+rHlYRtwbHR9JwK0WJPwc/pQR2P/O28c9aErDZGc4evuWVIznYKTx2tz6gRD6cjN6Y2KZNzerCKmo1rA+mfW3xb0s59ZjmBfKzKEMPM24DEMlYC+/m3tLZeIjVy+xM2bowQXOH44nr414etjgCmzb8ykDxRaH9dNfi3E="
+      secure: "B2UBKPgjXDCpPm7ZcafI5rUCkUCw5ZiKVrZile5ggSJZ1yBowrN/vZByKxp5vSPDoolSlLZIa7Pxfsn1dmSiga31nUUtwzGJg9mKzrlwPNWodCPPvMjnEJYt+IlVNslX2v/liWZYgE/sgr7jvXu1VMBZMCuRs8jUTLc3HGy6491ZjjzsaPG4UvSpq/mfu0/BWQ2qDa+HIrk0pOcgSG2qm0SwcOl+7E5f/WCS6JZleMPKL5/GgrFE6XuIiEfPB3e56xw+4mFlfTl98k07l+HJ1PuYmoilz6k7249e4x3CStEa741twEpcKHcA9OX6540OGrRyI2EJAhof/a9p11JgYIiDpvEr6trIC70FR13JMXAk2Uvr78GlCTORDCrZd8K1jbTmP84yLrKnI1qAImz94GRNShxxC4rZcWlTbQmojghzx1ZpfrgywGGiTm4eHIqXqCFuOxO4kAUOc6HzUriq2hp0qDZtimtFI5n36014UpXFhlnObtFSFgQOkoX9mKlY3WPOGL5NL8HQMpgi67B1kWWiL71x7COCqrTw0djPjNut0Ll7owrIvzitJbuuS/F9zzggQNF/FpdcL5YxCJvNoFyDZHkjqEFhI8chFTjDhEiX80IMAZfyC4rFA+IWxfar3J17lIND0LUSv1PszceVz4bTf02F/xu0TDSzpvKMUaE="
 
 script:
   # Install packages
@@ -31,6 +31,7 @@ script:
   - lcov --gcov-tool /usr/bin/gcov -l coverage.info
   # And finally run the SonarQube analysis - read the "sonar-project.properties"
   # file to see the specific configuration
+  - cd ..
   - sonar-scanner
 
 cache:
