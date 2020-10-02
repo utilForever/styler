@@ -1,0 +1,33 @@
+language: cpp
+
+#addons:
+#  sonarcloud:
+#    organization: "utilforever-github"
+#    token:
+#      secure: "uHBKhFpDoOw3yghbGAjAUX3/8i7f2uoXUPnc520fhD1c6EDkfeRlA046wbICxKokV55ghOhXmD9hPS+xECllO71REPQ9pG9conp9CFnJ6m0G7co0AH2ur3UeCiq2/vyCMAPVhMgS3Y9CIj2zpioEebxEZl9O+1283LY1mRoepWC5LIpufKdp07RgKvWa62crL3YENE7Z8fJsC21bz//uZaU6YPG5ICl7UfpK1hsqHrAZFVU/PjloDx2Ff2fMl0oR8Pf5LefkhwILojo3FuiAGAhVYSUWlOXu3vFBrIiwUo0B+PQxeO/F2QV/cj/0nW8d0+C5PvZBTG8SQAbph+3zmD0TqBtEERal4fD/vEkgp9XyWy9PCgVXbYXasXJA4wbt0CKujbGGqJP9Hl44fHzbobiBxFL6xsbSZm+kYsN2NZ+5cKg87kf2j6YkWZoc7UZq0pI8LAFG4dabZsRdKGWa7+s/JFLTg1eZIMMW0vvRAebIZiL3Y7G+Q0bm21xBKrO1EKHOJ26bDyQtHE+f5GlGpTiA/1jMIXkgONIq7Ka8aqFBk8nxeG84HCNb4vRFaUrivk7+NOFDOEgIiFmV89DdbcelElhshA1t06fsiQoomkhcobsd9h8VPUTCGfIPTDu/1DHxDwEmbX4UgJx49ULsQXcu82D6HlZsDzv/IAmtVVU="
+
+script:
+  - mkdir build
+  - cd build
+  - cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_COVERAGE=ON
+  # Wraps the compilation with the Build Wrapper to generate configuration (used
+  # later by the SonarQube Scanner) into the "bw-output" folder
+  - build-wrapper-linux-x86-64 --out-dir ../bw-output make all
+  # Execute some tests
+  - lcov --gcov-tool /usr/bin/gcov-7 -c -i -d test/unit_test -o base_unit_test.info
+  - lcov --gcov-tool /usr/bin/gcov-7 -c -i -d test/feature_test -o base_feature_test.info
+  - bin/unit_test
+  - bin/feature_test
+  - lcov --gcov-tool /usr/bin/gcov-7 -c -d test/unit_test -o unit_test.info
+  - lcov --gcov-tool /usr/bin/gcov-7 -c -d test/feature_test -o feature_test.info
+  - lcov --gcov-tool /usr/bin/gcov-7 -a base_unit_test.info -a base_feature_test.info -a unit_test.info -a feature_test.info -o coverage.info
+  - lcov --gcov-tool /usr/bin/gcov-7 -r coverage.info '/usr/*' -o coverage.info
+  - lcov --gcov-tool /usr/bin/gcov-7 -r coverage.info '*/external/*' -o coverage.info
+  - lcov --gcov-tool /usr/bin/gcov-7 -l coverage.info
+  # And finally run the SonarQube analysis - read the "sonar-project.properties"
+  # file to see the specific configuration
+  # - sonar-scanner
+
+#cache:
+#  directories:
+#    - '$HOME/.sonar/cache'
