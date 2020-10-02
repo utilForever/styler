@@ -1,5 +1,6 @@
 exclude_paths:
   - README.md
   - 3RD-PARTY.md
+  - .github/**
   - external/**
   - media/**
