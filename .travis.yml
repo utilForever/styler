@@ -1,4 +1,6 @@
 language: cpp
+os: linux
+dist: focal
 
 #addons:
 #  sonarcloud:
@@ -18,16 +20,16 @@ script:
   # - build-wrapper-linux-x86-64 --out-dir ../bw-output make all
   - make all
   # Execute some tests
-  - lcov --gcov-tool /usr/bin/gcov-7 -c -i -d test/unit_test -o base_unit_test.info
-  - lcov --gcov-tool /usr/bin/gcov-7 -c -i -d test/feature_test -o base_feature_test.info
+  - lcov --gcov-tool /usr/bin/gcov -c -i -d test/unit_test -o base_unit_test.info
+  - lcov --gcov-tool /usr/bin/gcov -c -i -d test/feature_test -o base_feature_test.info
   - bin/unit_test
   - bin/feature_test
-  - lcov --gcov-tool /usr/bin/gcov-7 -c -d test/unit_test -o unit_test.info
-  - lcov --gcov-tool /usr/bin/gcov-7 -c -d test/feature_test -o feature_test.info
-  - lcov --gcov-tool /usr/bin/gcov-7 -a base_unit_test.info -a base_feature_test.info -a unit_test.info -a feature_test.info -o coverage.info
-  - lcov --gcov-tool /usr/bin/gcov-7 -r coverage.info '/usr/*' -o coverage.info
-  - lcov --gcov-tool /usr/bin/gcov-7 -r coverage.info '*/external/*' -o coverage.info
-  - lcov --gcov-tool /usr/bin/gcov-7 -l coverage.info
+  - lcov --gcov-tool /usr/bin/gcov -c -d test/unit_test -o unit_test.info
+  - lcov --gcov-tool /usr/bin/gcov -c -d test/feature_test -o feature_test.info
+  - lcov --gcov-tool /usr/bin/gcov -a base_unit_test.info -a base_feature_test.info -a unit_test.info -a feature_test.info -o coverage.info
+  - lcov --gcov-tool /usr/bin/gcov -r coverage.info '/usr/*' -o coverage.info
+  - lcov --gcov-tool /usr/bin/gcov -r coverage.info '*/external/*' -o coverage.info
+  - lcov --gcov-tool /usr/bin/gcov -l coverage.info
   # And finally run the SonarQube analysis - read the "sonar-project.properties"
   # file to see the specific configuration
   # - sonar-scanner
